@@ -1,0 +1,995 @@
+/* ============================================
+   PRODUCTS PAGE — products.css v2
+   Enhanced with animations, gradients, loading,
+   and interactive micro-animations.
+   ============================================ */
+
+/* ---- SMOOTH SCROLL ---- */
+html {
+    scroll-behavior: smooth;
+}
+
+/* ============================================
+   PAGE LOADER
+   ============================================ */
+.pp-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: var(--color-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.pp-loader-hide {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.pp-loader-inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pp-loader-logo {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    animation: ppLoaderPulse 1.2s ease-in-out infinite;
+}
+
+.pp-loader-ring {
+    position: absolute;
+    width: 72px;
+    height: 72px;
+    border: 3px solid var(--color-border);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: ppLoaderSpin 0.9s linear infinite;
+}
+
+@keyframes ppLoaderSpin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes ppLoaderPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(0.88); opacity: 0.6; }
+}
+
+/* ============================================
+   SCROLL REVEAL ANIMATIONS
+   ============================================ */
+.reveal {
+    opacity: 0;
+    transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: opacity, transform;
+}
+
+.reveal.reveal-up {
+    transform: translateY(40px);
+}
+
+.reveal.reveal-left {
+    transform: translateX(-50px);
+}
+
+.reveal.reveal-right {
+    transform: translateX(50px);
+}
+
+.reveal.reveal-scale {
+    transform: scale(0.92);
+}
+
+/* Revealed state */
+.reveal.revealed {
+    opacity: 1;
+    transform: translateY(0) translateX(0) scale(1);
+}
+
+/* Staggered delays */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
+
+/* ============================================
+   HERO
+   ============================================ */
+.pp-hero {
+    text-align: center;
+    padding-top: 140px;
+    background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Floating gradient orbs */
+.pp-hero::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    right: -120px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: ppOrbFloat 8s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.pp-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px;
+    left: -100px;
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.06) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: ppOrbFloat 10s ease-in-out infinite reverse;
+    pointer-events: none;
+}
+
+@keyframes ppOrbFloat {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(30px, -20px); }
+}
+
+.pp-hero-badge {
+    display: inline-block;
+    padding: 0.5rem 1.25rem;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(139, 92, 246, 0.12));
+    color: var(--color-primary);
+    border-radius: 100px;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(59, 130, 246, 0.15);
+}
+
+.pp-hero-title {
+    font-size: 3.8rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    margin-bottom: 1.25rem;
+    background: linear-gradient(135deg, var(--color-text) 0%, #475569 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+@media (max-width: 768px) {
+    .pp-hero-title {
+        font-size: 2.4rem;
+    }
+}
+
+.pp-hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 0 auto 2.5rem;
+}
+
+.pp-hero-nav {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
+}
+
+.pp-nav-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.25rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 100px;
+    text-decoration: none;
+    color: var(--color-text);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.pp-nav-pill:hover,
+.pp-nav-pill-active {
+    border-color: var(--color-primary);
+    color: #fff;
+    background: var(--color-primary);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 102, 255, 0.25);
+}
+
+.pp-nav-pill:hover .pp-nav-icon,
+.pp-nav-pill-active .pp-nav-icon {
+    filter: brightness(0) invert(1);
+}
+
+.pp-nav-icon {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    border-radius: 6px;
+    transition: filter 0.3s ease;
+}
+
+/* ============================================
+   PRODUCT SECTIONS
+   ============================================ */
+.pp-product {
+    background: var(--color-bg);
+    position: relative;
+}
+
+.pp-product-alt {
+    background: var(--color-surface);
+}
+
+.pp-product-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.pp-product-icon {
+    width: 80px;
+    height: 80px;
+    max-width: 80px;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    flex-shrink: 0;
+    transition: transform 0.4s ease;
+}
+
+.pp-product-icon:hover {
+    transform: scale(1.1) rotate(-3deg);
+}
+
+.pp-product-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+    color: var(--color-primary);
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.5rem;
+}
+
+.pp-product-header h2 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    margin-bottom: 0.25rem;
+}
+
+.pp-product-headline {
+    font-size: 1.1rem;
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+/* ============================================
+   VISION CARD
+   ============================================ */
+.pp-vision-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    margin-bottom: 3rem;
+    border-left: 4px solid var(--color-primary);
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.4s ease, background 0.4s ease;
+    box-shadow: var(--glass-shadow), var(--glass-inner-light);
+}
+
+.pp-product-alt .pp-vision-card {
+    background: rgba(240, 241, 242, 0.4);
+}
+
+.pp-vision-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-text);
+}
+
+.pp-vision-card p {
+    color: var(--color-text-muted);
+    line-height: 1.75;
+    font-size: 1rem;
+}
+
+/* ============================================
+   MODULE CARDS
+   ============================================ */
+.pp-modules-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+@media (max-width: 768px) {
+    .pp-modules-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.pp-module-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 0.4s ease,
+                border-color 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--glass-shadow), var(--glass-inner-light);
+}
+
+.pp-module-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-primary), #8B5CF6);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+}
+
+.pp-module-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08);
+    border-color: rgba(59, 130, 246, 0.2);
+}
+
+.pp-module-card:hover::after {
+    transform: scaleX(1);
+}
+
+.pp-module-label {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    background: linear-gradient(135deg, var(--color-primary), #6366F1);
+    color: #fff;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.pp-module-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.pp-module-desc {
+    color: var(--color-text-muted);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+/* ============================================
+   FEATURE LIST
+   ============================================ */
+.pp-feature-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.pp-feature-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.pp-feature-list li:hover {
+    background: rgba(59, 130, 246, 0.04);
+    transform: translateX(4px);
+}
+
+.pp-feature-list li strong {
+    color: var(--color-text);
+}
+
+/* ============================================
+   FEATURES SHOWCASE (Grid of 4)
+   ============================================ */
+.pp-features-showcase {
+    margin-top: 0;
+}
+
+.pp-features-title {
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-text);
+}
+
+.pp-features-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .pp-features-grid-4 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.pp-feat-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 0.4s ease,
+                border-color 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--glass-shadow), var(--glass-inner-light);
+}
+
+.pp-product-alt .pp-feat-card {
+    background: rgba(240, 241, 242, 0.4);
+}
+
+.pp-feat-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.02), rgba(139, 92, 246, 0.02));
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.pp-feat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.07);
+    border-color: rgba(59, 130, 246, 0.2);
+}
+
+.pp-feat-card:hover::before {
+    opacity: 1;
+}
+
+.pp-feat-card .clay-icon {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.pp-feat-card:hover .clay-icon {
+    transform: scale(1.15) rotate(-3deg);
+}
+
+.pp-feat-card h4 {
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+    position: relative;
+}
+
+.pp-feat-card p {
+    font-size: 0.88rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    position: relative;
+}
+
+/* ============================================
+   SECTION ICON
+   ============================================ */
+.pp-section-icon {
+    width: 72px;
+    height: 72px;
+    max-width: 72px;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    margin: 0 auto 1rem;
+    display: block;
+    animation: ppIconBounce 3s ease-in-out infinite;
+}
+
+@keyframes ppIconBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* ============================================
+   COMPARISON TABLE
+   ============================================ */
+.pp-comparison {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: #e2e8f0;
+    border-radius: var(--radius-lg);
+    margin: 0 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.pp-comparison::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.pp-table-wrap {
+    overflow-x: auto;
+    margin-top: 2rem;
+}
+
+.pp-comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.pp-comparison-table th,
+.pp-comparison-table td {
+    padding: 1.1rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.95rem;
+    transition: background 0.3s ease;
+}
+
+.pp-comparison-table thead th {
+    background: rgba(255, 255, 255, 0.06);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.pp-th-highlight {
+    color: #60a5fa !important;
+    background: rgba(59, 130, 246, 0.08) !important;
+}
+
+.pp-td-highlight {
+    color: #93c5fd;
+    font-weight: 600;
+}
+
+.pp-comparison-table tbody tr {
+    transition: background 0.3s ease;
+}
+
+.pp-comparison-table tbody tr:hover {
+    background: rgba(59, 130, 246, 0.06);
+}
+
+/* ============================================
+   ROADMAP
+   ============================================ */
+.pp-roadmap {
+    background: var(--color-surface);
+}
+
+.pp-roadmap-headline {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--color-primary);
+    font-weight: 600;
+    margin-bottom: 2.5rem;
+}
+
+.pp-roadmap-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+@media (max-width: 768px) {
+    .pp-roadmap-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.pp-roadmap-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 0.4s ease;
+}
+
+.pp-roadmap-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #22c55e, #10b981);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s ease;
+}
+
+.pp-roadmap-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.07);
+}
+
+.pp-roadmap-card:hover::before {
+    transform: scaleX(1);
+}
+
+.pp-roadmap-tag {
+    display: inline-block;
+    padding: 0.25rem 0.7rem;
+    background: #dcfce7;
+    color: #16a34a;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    animation: ppTagPulse 2s ease-in-out infinite;
+}
+
+@keyframes ppTagPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.3); }
+    50% { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+}
+
+.pp-roadmap-tag-future {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    animation: ppTagPulseFuture 2s ease-in-out infinite;
+}
+
+@keyframes ppTagPulseFuture {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.3); }
+    50% { box-shadow: 0 0 0 6px rgba(59, 130, 246, 0); }
+}
+
+.pp-roadmap-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+}
+
+.pp-roadmap-card p {
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+}
+
+.pp-roadmap-products {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.pp-roadmap-products span {
+    padding: 0.2rem 0.6rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    transition: all 0.3s ease;
+}
+
+.pp-roadmap-products span:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+}
+
+/* ============================================
+   LICENSING
+   ============================================ */
+.pp-licensing {
+    background: var(--color-bg);
+}
+
+.pp-license-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .pp-license-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.pp-license-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    text-align: center;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 0.4s ease,
+                border-color 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.pp-license-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-primary), #8B5CF6);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+}
+
+.pp-license-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08);
+    border-color: rgba(59, 130, 246, 0.2);
+}
+
+.pp-license-card:hover::after {
+    transform: scaleX(1);
+}
+
+.pp-license-icon {
+    width: 48px !important;
+    height: 48px !important;
+    margin: 0 auto 1.25rem !important;
+    transition: transform 0.3s ease;
+}
+
+.pp-license-card:hover .pp-license-icon {
+    transform: scale(1.15) rotate(-5deg);
+}
+
+.pp-license-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.25rem;
+}
+
+.pp-license-label {
+    color: var(--color-primary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+}
+
+.pp-license-card > p:last-child {
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+/* ============================================
+   FAQ
+   ============================================ */
+.pp-faq {
+    background: var(--color-surface);
+}
+
+.pp-faq-list {
+    max-width: 800px;
+    margin: 2rem auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.pp-faq-item {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.pp-faq-item[open] {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    border-color: rgba(59, 130, 246, 0.2);
+}
+
+.pp-faq-item summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--color-text);
+    list-style: none;
+    user-select: none;
+    transition: background 0.3s ease;
+}
+
+.pp-faq-item summary:hover {
+    background: rgba(59, 130, 246, 0.03);
+}
+
+.pp-faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.pp-faq-q {
+    flex: 1;
+}
+
+.pp-faq-toggle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                background 0.3s ease;
+}
+
+.pp-faq-item[open] .pp-faq-toggle {
+    transform: rotate(45deg);
+    background: var(--color-primary);
+    color: #fff;
+}
+
+.pp-faq-answer {
+    padding: 0 1.5rem 1.5rem;
+    animation: ppFaqSlide 0.3s ease;
+}
+
+@keyframes ppFaqSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.pp-faq-answer p {
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+/* ============================================
+   CTA BANNER
+   ============================================ */
+.pp-cta {
+    background: var(--color-bg);
+}
+
+.pp-cta .careers-inner {
+    background: linear-gradient(135deg, var(--color-primary), #4f46e5, #7c3aed);
+    background-size: 200% 200%;
+    animation: ppGradientShift 6s ease-in-out infinite;
+}
+
+@keyframes ppGradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* ============================================
+   RESPONSIVE POLISH
+   ============================================ */
+@media (max-width: 600px) {
+    .pp-hero {
+        padding-top: 110px;
+    }
+
+    .pp-hero-nav {
+        gap: 0.5rem;
+    }
+
+    .pp-nav-pill {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+    }
+
+    .pp-product-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .pp-product-header h2 {
+        font-size: 1.8rem;
+    }
+
+    .pp-vision-card {
+        padding: 1.5rem;
+    }
+
+    .pp-module-card {
+        padding: 1.5rem;
+    }
+
+    .pp-feat-card {
+        padding: 1.25rem;
+    }
+
+    .pp-license-card {
+        padding: 1.5rem;
+    }
+
+    .pp-roadmap-card {
+        padding: 1.5rem;
+    }
+}
+
+/* ---- Scroll progress bar ---- */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--scroll-progress, 0%);
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-primary), #8B5CF6, #EC4899);
+    z-index: 9999;
+    transition: width 0.1s linear;
+}
